@@ -8,18 +8,13 @@ class AnimatedSplash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSplashScreen(splash: 
-    Column(
-      children: [
-        Center(
-          child: LottieBuilder.asset("assets/Animation - 1714077249514.json"),
-          
-        )
-      ],
-    )
-     ,nextScreen: Splash2()
-     ,splashIconSize: 400,
-     backgroundColor: Colors.white,
-     );
+    return AnimatedSplashScreen(
+      splash: Center(
+        child: LottieBuilder.asset("assets/Animation - 1714077249514.json"),
+      ),
+      nextScreen: Splash2(),
+      splashIconSize: 400,
+      backgroundColor: Colors.white,
+    );
   }
 }

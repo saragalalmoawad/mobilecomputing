@@ -1,10 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:mobilecomputing/Serivces/WeatherServices.dart';
 import 'package:mobilecomputing/models/WeatherModel.dart';
 import 'package:mobilecomputing/view/OnBoarding.dart';
-import '../widgets/city_card.dart';
 import 'package:mobilecomputing/view/searched_city.dart';
+import '../widgets/city_card.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   late TextEditingController? _searchController;
 
-  late WeatherModel weather;
+  //late WeatherModel weather;
   final List<String> cities = [
     'Fayoum',
     'Australia',
@@ -46,15 +46,19 @@ class _SearchPageState extends State<SearchPage> {
     _searchController = TextEditingController();
   }
 
-  Future<WeatherModel> fetchWeather(String city) async {
-    WeatherModel fetchedWeather =
-        await WeatherServices(Dio()).GetWeather(city: city);
-    return fetchedWeather;
+  Future<WeatherModel?> fetchWeather(String city) async {
+    try {
+      WeatherModel fetchedWeather =
+          await WeatherServices(Dio()).GetWeather(city: city);
+      return fetchedWeather;
+    } catch (e) {
+      return null;
+    }
   }
 
   @override
   void dispose() {
-    _searchController!.dispose();
+    _searchController?.dispose();
     super.dispose();
   }
 
@@ -95,7 +99,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 suffixIcon: IconButton(
                   onPressed: () async {
-                    WeatherModel fetchedWeather =
+                    WeatherModel? fetchedWeather =
                         await fetchWeather(_searchController!.text);
                     if (fetchedWeather != null) {
                       Navigator.push(
@@ -106,8 +110,22 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       );
                     } else {
-                      
-                      print('Weather data not available');
+                      // Show alert dialog for invalid city
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('City not found!'),
+                          content: Text('Please enter a valid city name.'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
                     }
                   },
                   icon: Container(
@@ -149,5 +167,3 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 }
-
-

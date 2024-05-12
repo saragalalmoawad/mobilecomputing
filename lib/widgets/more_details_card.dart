@@ -43,7 +43,10 @@ class _MoreDetailsCardState extends State<MoreDetailsCard> {
           ),
           Text(
             widget.text2,
-            style: TextStyle(color: Colors.amber[700], fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.amber[700],
+                fontSize: 16,
+                fontWeight: FontWeight.bold),
           ),
         ],
       ),

@@ -3,18 +3,16 @@ import 'package:mobilecomputing/view/Splash.dart';
 
 void main() {
  runApp(MyApp());
- /* runApp(
-    DevicePreview(
-     enabled: !kReleaseMode
-    ,builder: ((context)=>const MyApp()),));*/
+
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+     debugShowCheckedModeBanner: false,
       home: AnimatedSplash(),
     );
   }

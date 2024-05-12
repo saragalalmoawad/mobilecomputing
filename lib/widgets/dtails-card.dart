@@ -4,7 +4,7 @@ class DetailsCard extends StatelessWidget {
   final String imagePath;
   final String text;
 
-  const DetailsCard ({
+  const DetailsCard({
     required this.imagePath,
     required this.text,
   });
@@ -29,7 +29,9 @@ class DetailsCard extends StatelessWidget {
         SizedBox(height: 10),
         Text(
           text,
-          style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
         )
-      ],);}
+      ],
+    );
+  }
 }

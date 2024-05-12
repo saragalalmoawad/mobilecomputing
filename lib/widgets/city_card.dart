@@ -10,7 +10,6 @@ class CityCard extends StatefulWidget {
 
   CityCard({
     Key? key,
-
     required this.currentCity,
   }) : super(key: key);
 
@@ -20,15 +19,12 @@ class CityCard extends StatefulWidget {
 
 class _CityCardState extends State<CityCard> {
   late WeatherModel weather;
-  late num show=0;
+  late num show = 0;
   @override
   void initState() {
     super.initState();
     // Call the WeatherService to fetch weather data
-    Future.delayed(Duration.zero).then((value) async => {
-      await fetchWeather()
-    });
-
+    Future.delayed(Duration.zero).then((value) async => {await fetchWeather()});
   }
 
   Future<void> fetchWeather() async {
@@ -38,7 +34,7 @@ class _CityCardState extends State<CityCard> {
       );
       setState(() {
         weather = fetchedWeather;
-        show=1;
+        show = 1;
         //print('weather');
       });
     } catch (e) {
@@ -46,11 +42,8 @@ class _CityCardState extends State<CityCard> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-
     if (show == 0) {
       return Padding(
         padding: EdgeInsets.all(30),
@@ -60,41 +53,42 @@ class _CityCardState extends State<CityCard> {
       );
     }
 
-
 //Date: 2024-05-12 14:30:00
 
-    String timeCondition='${weather?.date}';
+    String timeCondition = '${weather?.date}';
     int hour = int.parse(timeCondition.split(" ")[1].split(":")[0]);
-    if (hour >= 18||hour<=5) {
-      widget.imageUrl = "assets/im1.png"; 
-    }else{
+    if (hour >= 18 || hour <= 5) {
+      widget.imageUrl = "assets/im1.png";
+    } else {
       widget.imageUrl = "assets/sunny.png";
       print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${hour}");
     }
     return Padding(
       padding: EdgeInsets.fromLTRB(15, 30, 15, 0),
       child: InkWell(
-        onTap: (){
-          Navigator.push(context,MaterialPageRoute(
-            builder: (context) => CityPage(
-              currentCity: "${weather?.city}",
-              currentCountry: "${weather?.country}.",
-              currentCondition: "${weather?.condition}",
-              currentDate: "${weather?.date}",
-              currentTemperature: weather.Temperature ,
-              currentWind: weather.wind,
-              background: "${widget.imageUrl}",
-              currentRain:weather.rain,
-              currentSnow: weather.snow,
-              currentClouds: weather.clouds,
-              currentUV: weather.uv,
-              currentHumidity: weather.humidity,
-              currentPressure: weather.pressure,
-              currentVisibility: weather.visibility,
-              sunrise: weather.sunrise,
-              sunset: weather.sunset,
-            ),
-          ));
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CityPage(
+                  currentCity: "${weather?.city}",
+                  currentCountry: "${weather?.country}.",
+                  currentCondition: "${weather?.condition}",
+                  currentDate: "${weather?.date}",
+                  currentTemperature: weather.Temperature,
+                  currentWind: weather.wind,
+                  background: "${widget.imageUrl}",
+                  currentRain: weather.rain,
+                  currentSnow: weather.snow,
+                  currentClouds: weather.clouds,
+                  currentUV: weather.uv,
+                  currentHumidity: weather.humidity,
+                  currentPressure: weather.pressure,
+                  currentVisibility: weather.visibility,
+                  sunrise: weather.sunrise,
+                  sunset: weather.sunset,
+                ),
+              ));
         },
         child: Container(
           width: 390,
@@ -122,23 +116,33 @@ class _CityCardState extends State<CityCard> {
               child: Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: 11,),
+                    padding: EdgeInsets.only(
+                      left: 11,
+                    ),
                     child: Text(
                       "${weather?.city ?? '-'}",
-                      style: TextStyle(fontSize: 25, color: Colors.white,fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   Spacer(),
                   Padding(
-                    padding: const EdgeInsets.only(top:10,right:20.0),
+                    padding: const EdgeInsets.only(top: 10, right: 20.0),
                     child: Column(
                       children: [
-                        SizedBox(height: MediaQuery.of(context).size.height * .02),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * .02),
                         Text(
                           "${weather?.Temperature ?? '-'}°C",
-                          style: TextStyle(fontSize: 25, color: Colors.white,fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: MediaQuery.of(context).size.height * .01),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * .01),
                         Text(
                           "${weather?.condition ?? '-'}",
                           style: TextStyle(fontSize: 18, color: Colors.white),
