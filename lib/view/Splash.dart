@@ -13,7 +13,7 @@ class AnimatedSplash extends StatelessWidget {
         child: LottieBuilder.asset("assets/Animation - 1714077249514.json"),
       ),
       nextScreen: Splash2(),
-      splashIconSize: 400,
+      splashIconSize: 300,
       backgroundColor: Colors.white,
     );
   }

@@ -1,31 +1,29 @@
-import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:mobilecomputing/Serivces/WeatherServices.dart';
 import 'package:mobilecomputing/models/WeatherModel.dart';
 import 'package:mobilecomputing/view/OnBoarding.dart';
-import 'package:mobilecomputing/view/searched_city.dart';
 import '../widgets/city_card.dart';
+import 'package:mobilecomputing/view/searched_city.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
-
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
   late TextEditingController? _searchController;
-
-  //late WeatherModel weather;
+  late WeatherModel weather;
   final List<String> cities = [
     'Fayoum',
-    'Australia',
-    'Moscow',
-    'Alex',
     'Brazil',
+    'Alex',
     'Cairo',
     'Zagazig',
     'Beni-Suef',
+    'Australia',
+    'Moscow',
     'Menia',
     'Luxor',
     'Hurghada',
@@ -46,19 +44,40 @@ class _SearchPageState extends State<SearchPage> {
     _searchController = TextEditingController();
   }
 
-  Future<WeatherModel?> fetchWeather(String city) async {
+  Future<void> fetchWeather(String city) async {
     try {
       WeatherModel fetchedWeather =
-          await WeatherServices(Dio()).GetWeather(city: city);
-      return fetchedWeather;
+      await WeatherServices(Dio()).GetWeather(city: city);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SearchedCity(weather: fetchedWeather),
+        ),
+      );
     } catch (e) {
-      return null;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Weather data not available. Please try again.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
   @override
   void dispose() {
-    _searchController?.dispose();
+    _searchController!.dispose();
     super.dispose();
   }
 
@@ -99,34 +118,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 suffixIcon: IconButton(
                   onPressed: () async {
-                    WeatherModel? fetchedWeather =
-                        await fetchWeather(_searchController!.text);
-                    if (fetchedWeather != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              SearchedCity(weather: fetchedWeather),
-                        ),
-                      );
-                    } else {
-                      // Show alert dialog for invalid city
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: Text('City not found!'),
-                          content: Text('Please enter a valid city name.'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('OK'),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
+                    await fetchWeather(_searchController!.text);
                   },
                   icon: Container(
                     decoration: BoxDecoration(
